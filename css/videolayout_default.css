@@ -259,6 +259,16 @@
     z-index: 2;
 }
 
+.impressum {
+    display: block;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 15;
+    font-size: 16px;
+    color: white;
+}
+
 #leftwatermark {
     left: 15;
     background-image:url(../images/watermark.png);
