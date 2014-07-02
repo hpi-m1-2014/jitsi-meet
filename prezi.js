@@ -19,10 +19,10 @@ var Prezi = (function (my) {
             $(document).trigger("video.selected", [true]);
 
             $('#largeVideo').fadeOut(300, function () {
-                setLargeVideoVisible(false);
+                VideoLayout.setLargeVideoVisible(false);
                 $('#presentation>iframe').fadeIn(300, function() {
                     $('#presentation>iframe').css({opacity:'1'});
-                    dockToolbar(true);
+                    Toolbar.dockToolbar(true);
                 });
             });
         }
@@ -32,8 +32,8 @@ var Prezi = (function (my) {
                     $('#presentation>iframe').css({opacity:'0'});
                     $('#reloadPresentation').css({display:'none'});
                     $('#largeVideo').fadeIn(300, function() {
-                        setLargeVideoVisible(true);
-                        dockToolbar(false);
+                        VideoLayout.setLargeVideoVisible(true);
+                        Toolbar.dockToolbar(false);
                     });
                 });
             }
@@ -169,12 +169,16 @@ var Prezi = (function (my) {
         console.log("presentation added", presUrl);
 
         var presId = getPresentationId(presUrl);
+
         var elementId = 'participant_'
                         + Strophe.getResourceFromJid(jid)
                         + '_' + presId;
 
-        addRemoteVideoContainer(elementId);
-        resizeThumbnails();
+        // We explicitly don't specify the peer jid here, because we don't want
+        // this video to be dealt with as a peer related one (for example we
+        // don't want to show a mute/kick menu for this one, etc.).
+        VideoLayout.addRemoteVideoContainer(null, elementId);
+        VideoLayout.resizeThumbnails();
 
         var controlsEnabled = false;
         if (jid === connection.emuc.myroomjid)
@@ -322,8 +326,13 @@ var Prezi = (function (my) {
      * Indicates presentation slide change.
      */
     $(document).bind('gotoslide.muc', function (event, jid, presUrl, current) {
-        if (preziPlayer) {
+        if (preziPlayer && preziPlayer.getCurrentStep() != current) {
             preziPlayer.flyToStep(current);
+
+            var animationStepsArray = preziPlayer.getAnimationCountOnSteps();
+            for (var i = 0; i < parseInt(animationStepsArray[current]); i++) {
+                preziPlayer.flyToStep(current, i);
+            }
         }
     });
 

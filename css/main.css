@@ -43,6 +43,10 @@ html, body{
     color: #087dba;
 }
 
+.errorMessage {
+    color: red;
+}
+
 .remoteuser {
     color: #424242;
 }
@@ -205,7 +209,6 @@ button {
 }
 
 button, input, select, textarea {
-    font-size: 100%;
     margin: 0;
     vertical-align: baseline;
 }
