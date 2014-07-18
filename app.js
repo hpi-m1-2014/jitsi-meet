@@ -6,7 +6,7 @@ var activecall = null;
 var RTC = null;
 var nickname = null;
 var sharedKey = '';
-var recordingToken ='';
+var recordingToken ='token';
 var roomUrl = null;
 var ssrc2jid = {};
 /**
