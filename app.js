@@ -469,7 +469,8 @@ function localStatsUpdated(statsCollector)
  */
 function startRtpStatsCollector()
 {
-    if (config.enableRtpStats && !statsCollector)
+    stopRTPStatsCollector();
+    if (config.enableRtpStats)
     {
         statsCollector = new StatsCollector(
             getConferenceHandler().peerconnection, 200, statsUpdated);
@@ -479,6 +480,19 @@ function startRtpStatsCollector()
         statsCollector.start();
     }
 }
+
+/**
+ * Stops the {@link StatsCollector}.
+ */
+function stopRTPStatsCollector()
+{
+    if (statsCollector)
+    {
+        statsCollector.stop();
+        statsCollector = null;
+    }
+}
+
 /**
  * Starts the {@link LocalStatsCollector} if the feature is enabled in config.js
  * @param stream the stream that will be used for collecting statistics.
@@ -548,7 +562,7 @@ $(document).bind('callactive.jingle', function (event, videoelem, sid) {
 
         // Update the large video to the last added video only if there's no
         // current active or focused speaker.
-        if (!focusedVideoSrc && !VideoLayout.getActiveSpeakerResourceJid())
+        if (!focusedVideoSrc && !VideoLayout.getDominantSpeakerResourceJid())
             VideoLayout.updateLargeVideo(videoelem.attr('src'), 1);
 
         VideoLayout.showFocusIndicator();
@@ -1082,11 +1096,7 @@ function disposeConference(onUnload) {
         }
         handler.peerconnection.close();
     }
-    if (statsCollector)
-    {
-        statsCollector.stop();
-        statsCollector = null;
-    }
+    stopRTPStatsCollector();
     if(!onUnload) {
         startLocalRtpStatsCollector(connection.jingle.localAudio);
     }
