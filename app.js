@@ -935,7 +935,7 @@ function toggleRecording() {
                             } else {
                                 // Notify embedding document about recording state change (requires jQuery to be present in the parent)
                                 if (typeof parent.$ !== 'undefined') {
-                                    parent.$(parent.document).trigger('recordingstatechange', state, result);
+                                    parent.$(parent.document).trigger('recordingstatechange', [state, result]);
                                 }
                             }
                         }
