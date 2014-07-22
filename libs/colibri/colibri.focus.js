@@ -193,7 +193,7 @@ ColibriFocus.prototype.setRecording = function(state, token, callback) {
             }
 
             self.recordingEnabled = newState;
-            callback(newState);
+            callback(newState, result);
         },
         function (error) {
             console.warn(error);

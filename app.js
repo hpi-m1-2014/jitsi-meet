@@ -926,7 +926,7 @@ function toggleRecording() {
     buttonClick("#recordButton", "icon-recEnable icon-recDisable");
     focus.setRecording(!oldState,
                         recordingToken,
-                        function (state) {
+                        function (state, result) {
                             console.log("New recording state: ", state);
                             if (state == oldState) //failed to change, reset the token because it might have been wrong
                             {
@@ -935,7 +935,7 @@ function toggleRecording() {
                             } else {
                                 // Notify embedding document about recording state change (requires jQuery to be present in the parent)
                                 if (typeof parent.$ !== 'undefined') {
-                                    parent.$(parent.document).trigger('recordingstatechange', state);
+                                    parent.$(parent.document).trigger('recordingstatechange', state, result);
                                 }
                             }
                         }
