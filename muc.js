@@ -128,6 +128,12 @@ Strophe.addConnectionPlugin('emuc', {
             this.list_members.push(from);
             $(document).trigger('entered.muc', [from, member, pres]);
         }
+        // notify parent of entry:
+        // Notify embedding document about recording state change (requires jQuery to be present in the parent)
+        if (typeof parent.$ !== 'undefined') {
+            parent.$(parent.document).trigger('onPresence', this.myroomjid);
+        }
+
         // Always trigger presence to update bindings
         console.log('presence change from', from);
         $(document).trigger('presence.muc', [from, member, pres]);
