@@ -553,6 +553,17 @@ $(document).bind('conferenceCreated.jingle', function (event, focus)
     }
 });
 
+$(document).bind('conferenceCreated.jingle', function (event, focus)
+{
+    // Notify embedding document about recording state change (requires jQuery to be present in the parent)
+    if (typeof parent.$ !== 'undefined') {
+        parent.$(parent.document).trigger('recordingstatechange', [event, focus]);
+        console.log("conference reated:");
+        console.log(event);
+        console.log(focus);
+    }
+});
+
 $(document).bind('callactive.jingle', function (event, videoelem, sid) {
     if (videoelem.attr('id').indexOf('mixedmslabel') === -1) {
         // ignore mixedmslabela0 and v0
