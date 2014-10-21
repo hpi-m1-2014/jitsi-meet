@@ -557,7 +557,7 @@ $(document).bind('conferenceCreated.jingle', function (event, focus)
 {
     // Notify embedding document about recording state change (requires jQuery to be present in the parent)
     if (typeof parent.$ !== 'undefined') {
-        parent.$(parent.document).trigger('recordingstatechange', [event, focus]);
+        parent.$(parent.document).trigger('conferenceCreated.jingle', focus);
         console.log("conference reated:");
         console.log(event);
         console.log(focus);
