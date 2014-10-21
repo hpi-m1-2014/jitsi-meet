@@ -642,6 +642,12 @@ $(document).bind('joined.muc', function (event, jid, info) {
             focus.setEndpointDisplayName(connection.emuc.myroomjid,
                                          nickname);
         }
+
+        // Notify embedding document about recording state change (requires jQuery to be present in the parent)
+        if (typeof parent.$ !== 'undefined') {
+            parent.$(parent.document).trigger('focus.created', [focus, connection.emuc.myroomjid]);
+        }
+
         Toolbar.showRecordingButton(false);
     }
 
